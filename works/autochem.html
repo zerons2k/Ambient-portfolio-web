@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoChem Pro — премиальная автохимия</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blue: #0066FF;
+      --cyan: #00D4FF;
+      --dark: #0A0F1A;
+      --surface: #0F1420;
+      --gray: #9CA3AF;
+      --white: #F5F5F5;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(10, 15, 26, 0.98);
+      backdrop-filter: blur(30px);
+      border-bottom: 2px solid rgba(0, 102, 255, 0.3);
+      padding: 28px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 50px;
+    }
+
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover { color: var(--cyan); }
+
+    .hero {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 140px 60px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(52px, 7vw, 82px);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 32px;
+      color: var(--white);
+      letter-spacing: -3px;
+    }
+
+    .hero .subtitle {
+      font-size: 21px;
+      color: var(--gray);
+      margin-bottom: 48px;
+      line-height: 1.5;
+    }
+
+    .hero-visual {
+      height: 650px;
+      background: linear-gradient(135deg, rgba(0,102,255,0.15) 0%, rgba(15,20,32,0.5) 100%);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      box-shadow: 0 40px 100px rgba(0, 212, 255, 0.2);
+    }
+
+    .bottles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .bottle {
+      width: 100px;
+      height: 250px;
+      background: linear-gradient(180deg, var(--blue) 0%, var(--cyan) 100%);
+      border-radius: 20px 20px 10px 10px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 212, 255, 0.4);
+    }
+
+    .bottle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 30px;
+      background: var(--dark);
+      border-radius: 10px 10px 0 0;
+    }
+
+    .bottle::after {
+      content: '✨';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+    }
+
+    .bottle:nth-child(1) { height: 280px; }
+    .bottle:nth-child(2) { height: 300px; }
+    .bottle:nth-child(3) { height: 260px; }
+
+    .btn-group {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 20px 46px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: inline-block;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0, 212, 255, 0.4);
+    }
+
+    .btn-secondary {
+      border: 2px solid var(--blue);
+      color: var(--cyan);
+      background: transparent;
+    }
+
+    .btn-secondary:hover {
+      background: var(--blue);
+      color: white;
+    }
+
+    section {
+      max-width: 1300px;
+      margin: 140px auto;
+      padding: 0 60px;
+    }
+
+    h2 {
+      font-size: clamp(42px, 5vw, 64px);
+      margin-bottom: 28px;
+      text-align: center;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -2px;
+    }
+
+    h2 span {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle-text {
+      text-align: center;
+      font-size: 19px;
+      color: var(--gray);
+      margin-bottom: 80px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+
+    .product-card {
+      background: var(--surface);
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 102, 255, 0.2);
+      transition: all 0.4s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 28px 70px rgba(0, 212, 255, 0.3);
+      border-color: var(--cyan);
+    }
+
+    .product-img {
+      height: 280px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-card:nth-child(1) .product-img {
+      background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
+    }
+    .product-card:nth-child(2) .product-img {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    }
+    .product-card:nth-child(3) .product-img {
+      background: linear-gradient(135deg, #00D4FF 0%, #0099CC 100%);
+    }
+    .product-card:nth-child(4) .product-img {
+      background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+    }
+    .product-card:nth-child(5) .product-img {
+      background: linear-gradient(135deg, #FF6347 0%, #DC143C 100%);
+    }
+    .product-card:nth-child(6) .product-img {
+      background: linear-gradient(135deg, #9370DB 0%, #6A5ACD 100%);
+    }
+
+    .product-img::after {
+      content: '🧴';
+      font-size: 72px;
+    }
+
+    .product-card:nth-child(2) .product-img::after { content: '✨'; }
+    .product-card:nth-child(3) .product-img::after { content: '💎'; }
+    .product-card:nth-child(4) .product-img::after { content: '🧽'; }
+    .product-card:nth-child(5) .product-img::after { content: '🛡️'; }
+    .product-card:nth-child(6) .product-img::after { content: '💧'; }
+
+    .badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: white;
+      color: var(--blue);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .product-content {
+      padding: 32px;
+    }
+
+    .product-content h3 {
+      font-size: 24px;
+      margin-bottom: 14px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .product-content p {
+      color: var(--gray);
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .buy-btn {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+
+    .buy-btn:hover {
+      transform: scale(1.06);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 80px;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 44px 32px;
+      background: var(--surface);
+      border-radius: 24px;
+      border: 1px solid rgba(0, 102, 255, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 52px;
+      margin-bottom: 24px;
+    }
+
+    .feature h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .feature p {
+      color: var(--gray);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    footer {
+      background: var(--surface);
+      border-top: 2px solid rgba(0, 102, 255, 0.3);
+      padding: 100px 60px 50px;
+      margin-top: 160px;
+    }
+
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-col h4 {
+      color: var(--cyan);
+      margin-bottom: 24px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .footer-col p,
+    .footer-col a {
+      color: var(--gray);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-col a:hover {
+      color: var(--cyan);
+    }
+
+    .copyright {
+      text-align: center;
+      color: rgba(156, 163, 175, 0.5);
+      padding-top: 40px;
+      border-top: 1px solid rgba(0, 102, 255, 0.2);
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .copyright a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; gap: 60px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .features { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .products-grid, .features, .footer-grid { grid-template-columns: 1fr; }
+      section { padding: 0 30px; margin: 80px auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">🧪 AUTOCHEM PRO</div>
+      <ul>
+        <li><a href="#products">Каталог</a></li>
+        <li><a href="#features">Преимущества</a></li>
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Профессиональный уход за автомобилем</h1>
+      <p class="subtitle">Качественная автохимия от ведущих мировых производителей</p>
+      <div class="btn-group">
+        <a href="#products" class="btn btn-primary">Смотреть каталог</a>
+        <a href="tel:+74951234567" class="btn btn-secondary">Позвонить</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="bottles">
+        <div class="bottle"></div>
+        <div class="bottle"></div>
+        <div class="bottle"></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="products">
+    <h2>Наши <span>товары</span></h2>
+    <p class="subtitle-text">Профессиональные средства для детейлинга и ухода</p>
+
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-img">
+          <span class="badge">Хит</span>
+        </div>
+        <div class="product-content">
+          <h3>Автошампунь Premium</h3>
+          <p>Концентрированный pH-нейтральный шампунь для бесконтактной мойки</p>
+          <div class="product-footer">
+            <div class="price">890₽</div>
+            <button class="buy-btn">В корзину</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"></div>
+        <div class="product-content">
+          <h3>Полироль для кузова</h3>
+          <p>Защитная полироль с карнаубским воском до 6 месяцев</p>
+          <div class="product-footer">
+            <div class="price">1 290₽</div>
+            <button class="buy-btn">В корзину</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <span class="badge">Новинка</span>
+        </div>
+        <div class="product-content">
+          <h3>Керамика 9H</h3>
+          <p>Профессиональное керамическое покрытие с защитой до 3 лет</p>
+          <div class="product-footer">
+            <div class="price">3 490₽</div>
+            <button class="buy-btn">В корзину</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"></div>
+        <div class="product-content">
+          <h3>Очиститель салона</h3>
+          <p>Универсальный для пластика, кожи и ткани</p>
+          <div class="product-footer">
+            <div class="price">690₽</div>
+            <button class="buy-btn">В корзину</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <span class="badge">Топ</span>
+        </div>
+        <div class="product-content">
+          <h3>Жидкое стекло</h3>
+          <p>Нанопокрытие для защиты ЛКП от царапин и загрязнений</p>
+          <div class="product-footer">
+            <div class="price">4 990₽</div>
+            <button class="buy-btn">В корзину</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"></div>
+        <div class="product-content">
+          <h3>Антидождь</h3>
+          <p>Гидрофобное покрытие для стёкол, работает до 6 месяцев</p>
+          <div class="product-footer">
+            <div class="price">790₽</div>
+            <button class="buy-btn">В корзину</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>Наши <span>преимущества</span></h2>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h3>Только оригинал</h3>
+        <p>Работаем с производителями, гарантия 100%</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🚚</div>
+        <h3>Быстрая доставка</h3>
+        <p>По Москве в день заказа, по России от 2 дней</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">💰</div>
+        <h3>Выгодные цены</h3>
+        <p>Скидки до 30% при оптовом заказе</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎓</div>
+        <h3>Консультация</h3>
+        <p>Помощь в подборе средств под задачи</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>AutoChem Pro</h4>
+        <p>Премиальная автохимия для профессионалов и энтузиастов</p>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>📞 +7 (495) 123-45-67</p>
+        <p>📧 shop@autochempro.ru</p>
+        <p>📍 Москва, Ленинградский пр-т, 80</p>
+      </div>
+      <div class="footer-col">
+        <h4>Режим работы</h4>
+        <p>Пн-Пт: 9:00 — 21:00</p>
+        <p>Сб-Вс: 10:00 — 19:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Соцсети</h4>
+        <a href="#">Instagram</a>
+        <a href="#">ВКонтакте</a>
+        <a href="#">Telegram</a>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2024 AutoChem Pro | Сайт создан <a href="/">Ambient</a>
+    </div>
+  </footer>
+</body>
+</html>

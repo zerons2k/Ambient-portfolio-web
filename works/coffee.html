@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mocha & Co — авторская кофейня в Москве</title>
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --espresso: #2D1810;
+      --mocha: #7A5C4E;
+      --caramel: #C9A66B;
+      --cream: #F7F0E8;
+      --foam: #FFFCF7;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', sans-serif;
+      background: var(--foam);
+      color: var(--espresso);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: rgba(255, 252, 247, 0.98);
+      backdrop-filter: blur(30px);
+      border-bottom: 1px solid rgba(45, 24, 16, 0.08);
+      padding: 28px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--espresso);
+      letter-spacing: -0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 50px;
+    }
+
+    nav a {
+      color: var(--espresso);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover { color: var(--caramel); }
+
+    .hero {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 140px 60px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(52px, 7vw, 84px);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 32px;
+      color: var(--espresso);
+      letter-spacing: -3px;
+    }
+
+    .hero .subtitle {
+      font-size: 22px;
+      color: var(--mocha);
+      margin-bottom: 48px;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .hero-visual {
+      height: 650px;
+      background: linear-gradient(135deg, #C9A66B 0%, #7A5C4E 100%);
+      border-radius: 48px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(45, 24, 16, 0.18);
+    }
+
+    .coffee-beans {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .bean {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(ellipse at 30% 30%, #4A3426 0%, #2D1810 100%);
+      border-radius: 50% 50% 40% 50%;
+      transform: rotate(45deg);
+      box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+    }
+
+    .bean:nth-child(1) { top: 20%; left: 15%; width: 100px; height: 100px; opacity: 0.9; }
+    .bean:nth-child(2) { top: 50%; right: 20%; width: 70px; height: 70px; }
+    .bean:nth-child(3) { bottom: 25%; left: 25%; width: 90px; height: 90px; opacity: 0.8; }
+    .bean:nth-child(4) { top: 60%; left: 45%; width: 60px; height: 60px; }
+
+    .btn-group {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 20px 46px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-block;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--espresso);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(45, 24, 16, 0.25);
+    }
+
+    .btn-secondary {
+      border: 2px solid var(--espresso);
+      color: var(--espresso);
+      background: transparent;
+    }
+
+    .btn-secondary:hover {
+      background: var(--espresso);
+      color: white;
+    }
+
+    section {
+      max-width: 1300px;
+      margin: 140px auto;
+      padding: 0 60px;
+    }
+
+    h2 {
+      font-size: clamp(42px, 5vw, 64px);
+      margin-bottom: 28px;
+      text-align: center;
+      font-weight: 800;
+      color: var(--espresso);
+      letter-spacing: -2px;
+    }
+
+    .subtitle-text {
+      text-align: center;
+      font-size: 19px;
+      color: var(--mocha);
+      margin-bottom: 80px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+
+    .menu-card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 2px 40px rgba(45, 24, 16, 0.06);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(45, 24, 16, 0.04);
+    }
+
+    .menu-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 28px 70px rgba(45, 24, 16, 0.14);
+    }
+
+    .card-img {
+      height: 280px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Капучино */
+    .menu-card:nth-child(1) .card-img {
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 60%),
+        radial-gradient(circle at 50% 45%, #C9A66B 0%, #7A5C4E 50%, #4A3426 100%);
+    }
+
+    /* Эспрессо */
+    .menu-card:nth-child(2) .card-img {
+      background:
+        radial-gradient(ellipse at center, #3D2617 0%, #2D1810 70%);
+    }
+
+    /* Латте */
+    .menu-card:nth-child(3) .card-img {
+      background: linear-gradient(180deg, #F7F0E8 0%, #C9A66B 40%, #7A5C4E 100%);
+    }
+
+    /* Американо */
+    .menu-card:nth-child(4) .card-img {
+      background:
+        radial-gradient(ellipse at top, #7A5C4E 0%, #3D2617 50%, #2D1810 100%);
+    }
+
+    /* Раф */
+    .menu-card:nth-child(5) .card-img {
+      background:
+        radial-gradient(circle at 40% 40%, rgba(255,255,255,0.3) 0%, transparent 50%),
+        linear-gradient(135deg, #F7F0E8 0%, #C9A66B 100%);
+    }
+
+    /* Флэт Уайт */
+    .menu-card:nth-child(6) .card-img {
+      background:
+        radial-gradient(circle at center, #4A3426 0%, #2D1810 80%);
+    }
+
+    .card-img::after {
+      content: '☕';
+      font-size: 72px;
+      opacity: 0.2;
+    }
+
+    .badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: var(--espresso);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-content {
+      padding: 32px;
+    }
+
+    .card-content h3 {
+      font-size: 24px;
+      margin-bottom: 14px;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+
+    .card-content p {
+      color: var(--mocha);
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--espresso);
+    }
+
+    .order-btn {
+      padding: 12px 28px;
+      background: var(--espresso);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+
+    .order-btn:hover {
+      transform: scale(1.06);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 100px;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 48px 36px;
+      background: white;
+      border-radius: 28px;
+      border: 1px solid rgba(45, 24, 16, 0.06);
+    }
+
+    .stat-num {
+      font-size: 56px;
+      font-weight: 900;
+      color: var(--caramel);
+      margin-bottom: 12px;
+      letter-spacing: -2px;
+    }
+
+    .stat-label {
+      font-size: 16px;
+      color: var(--mocha);
+      font-weight: 600;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 80px;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 44px 32px;
+      background: white;
+      border-radius: 28px;
+      border: 1px solid rgba(45, 24, 16, 0.06);
+    }
+
+    .feature-icon {
+      font-size: 52px;
+      margin-bottom: 24px;
+    }
+
+    .feature h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+
+    .feature p {
+      color: var(--mocha);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    footer {
+      background: var(--espresso);
+      color: var(--cream);
+      padding: 100px 60px 50px;
+      margin-top: 160px;
+    }
+
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-col h4 {
+      color: var(--caramel);
+      margin-bottom: 24px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .footer-col p,
+    .footer-col a {
+      color: rgba(247, 240, 232, 0.8);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-col a:hover {
+      color: var(--caramel);
+    }
+
+    .copyright {
+      text-align: center;
+      color: rgba(247, 240, 232, 0.5);
+      padding-top: 40px;
+      border-top: 1px solid rgba(247, 240, 232, 0.1);
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .copyright a {
+      color: var(--caramel);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; gap: 60px; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats, .features { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .menu-grid, .stats, .features, .footer-grid { grid-template-columns: 1fr; }
+      section { padding: 0 30px; margin: 80px auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">Mocha & Co</div>
+      <ul>
+        <li><a href="#menu">Меню</a></li>
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#features">Преимущества</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Авторский кофе для ценителей</h1>
+      <p class="subtitle">Открываем мир specialty кофе из лучших регионов планеты с собственной обжаркой</p>
+      <div class="btn-group">
+        <a href="#menu" class="btn btn-primary">Наше меню</a>
+        <a href="tel:+74951234567" class="btn btn-secondary">Позвонить</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="coffee-beans">
+        <div class="bean"></div>
+        <div class="bean"></div>
+        <div class="bean"></div>
+        <div class="bean"></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="menu">
+    <h2>Наше меню</h2>
+    <p class="subtitle-text">Каждая чашка — результат мастерства наших бариста и тщательного отбора зерен</p>
+
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="card-img">
+          <span class="badge">Хит</span>
+        </div>
+        <div class="card-content">
+          <h3>Капучино</h3>
+          <p>Классический итальянский напиток с бархатной молочной пенкой</p>
+          <div class="card-footer">
+            <div class="price">250₽</div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-img"></div>
+        <div class="card-content">
+          <h3>Эспрессо</h3>
+          <p>Крепкий концентрированный кофе из зерен 100% арабики</p>
+          <div class="card-footer">
+            <div class="price">180₽</div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-img">
+          <span class="badge">Топ</span>
+        </div>
+        <div class="card-content">
+          <h3>Латте</h3>
+          <p>Нежный кофейно-молочный коктейль с латте-арт</p>
+          <div class="card-footer">
+            <div class="price">280₽</div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-img"></div>
+        <div class="card-content">
+          <h3>Американо</h3>
+          <p>Мягкий кофе на основе двойного эспрессо</p>
+          <div class="card-footer">
+            <div class="price">200₽</div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-img"></div>
+        <div class="card-content">
+          <h3>Раф кофе</h3>
+          <p>Авторский напиток с ванильными нотками и сливками</p>
+          <div class="card-footer">
+            <div class="price">320₽</div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-img"></div>
+        <div class="card-content">
+          <h3>Флэт Уайт</h3>
+          <p>Насыщенный двойной эспрессо с микропенкой</p>
+          <div class="card-footer">
+            <div class="price">290₽</div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>О нас</h2>
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-num">5000+</div>
+        <div class="stat-label">Довольных гостей</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">20</div>
+        <div class="stat-label">Видов кофе</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4.9</div>
+        <div class="stat-label">Рейтинг</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Лет работы</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>Наши преимущества</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🌱</div>
+        <h3>Свежая обжарка</h3>
+        <p>Обжариваем зерна еженедельно на собственной ростерне</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">👨‍🍳</div>
+        <h3>Профи бариста</h3>
+        <p>Чемпионы региональных соревнований</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🏆</div>
+        <h3>Премиум качество</h3>
+        <p>100% арабика SCA score 85+</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <h3>Уютная атмосфера</h3>
+        <p>Дизайнерский интерьер для работы и встреч</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Mocha & Co</h4>
+        <p>Авторская кофейня specialty кофе в центре Москвы</p>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>📞 +7 (495) 123-45-67</p>
+        <p>📧 hello@mocha-co.ru</p>
+        <p>📍 Москва, ул. Арбат, 15</p>
+      </div>
+      <div class="footer-col">
+        <h4>Режим работы</h4>
+        <p>Пн-Пт: 8:00 — 22:00</p>
+        <p>Сб-Вс: 9:00 — 23:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Соцсети</h4>
+        <a href="#">Instagram</a>
+        <a href="#">ВКонтакте</a>
+        <a href="#">Telegram</a>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2024 Mocha & Co | Сайт создан <a href="/">Ambient</a>
+    </div>
+  </footer>
+</body>
+</html>

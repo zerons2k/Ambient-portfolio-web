@@ -1,0 +1,183 @@
+/* Дополнительные стили: выразительный первый экран, анимации, детали */
+
+/* Зернистость поверх фона, как у дорогих сайтов */
+.grain {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Первый экран */
+.hero { min-height: 100vh; padding: 140px 0 80px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 16px; border-radius: 50px; margin-bottom: 28px;
+  font-family: var(--font-mono); font-size: .8rem; color: var(--muted);
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #fff;
+  box-shadow: 0 0 0 0 rgba(255,255,255,.7); animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,.6); }
+  70% { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+.hero .hero-title {
+  font-size: clamp(2.6rem, 7.5vw, 6rem); line-height: 1.02;
+  letter-spacing: -0.05em; font-weight: 600; margin-bottom: 28px; max-width: 1000px;
+}
+.dim { color: rgba(255, 255, 255, 0.42); }
+.hero .hero-text { color: var(--muted); font-size: 1.2rem; max-width: 620px; margin-bottom: 38px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 70px; }
+.hero-actions .btn-glass { margin-left: 0; }
+
+.arrow { display: inline-block; transition: transform .25s; }
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* Цифры */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.stat { padding: 22px 24px; border-radius: 22px; }
+.stat b { display: block; font-size: 2rem; font-weight: 600; letter-spacing: -0.04em; line-height: 1.1; }
+.stat span { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); }
+
+/* Бегущая строка с технологиями */
+.marquee {
+  overflow: hidden; padding: 22px 0;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  -webkit-mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee-track { display: flex; gap: 60px; width: max-content; animation: marquee 30s linear infinite; }
+.marquee-track span {
+  font-family: var(--font-mono); font-size: .95rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .1em; white-space: nowrap;
+}
+.marquee-track span::before { content: "✦"; margin-right: 60px; color: rgba(255,255,255,.3); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Заголовки секций */
+.section-head { text-align: center; margin-bottom: 56px; }
+.section-head .section-sub { margin-bottom: 0; }
+.eyebrow {
+  display: inline-block; margin-bottom: 16px;
+  font-family: var(--font-mono); font-size: .8rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .1em;
+}
+.section-title { font-size: clamp(2.2rem, 5vw, 3.6rem); letter-spacing: -0.045em; }
+
+/* Карточки услуг */
+.card { display: flex; flex-direction: column; }
+.card-num {
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-mono); font-size: .8rem; color: var(--muted); margin-bottom: 40px;
+}
+.pill {
+  padding: 3px 10px; border-radius: 50px; background: #fff; color: #000;
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .05em;
+}
+.features { list-style: none; margin-bottom: 26px; flex-grow: 1; }
+.features li {
+  padding: 9px 0; border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: .92rem; color: var(--muted);
+}
+.features li::before { content: "+"; margin-right: 10px; color: #fff; font-family: var(--font-mono); }
+.featured { background: rgba(255,255,255,0.1); }
+.price { font-size: 1.8rem; }
+
+/* Превью работ: фон-картинка в ч/б с крупной подписью */
+.work-preview {
+  height: 220px; position: relative; overflow: hidden;
+  background: url("assets/bg.jpg") center / cover;
+  filter: grayscale(100%) contrast(1.1);
+}
+.work-preview::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.65));
+}
+.work-label {
+  position: relative; z-index: 1;
+  font-size: 2.6rem; font-weight: 600; letter-spacing: -0.05em; color: #fff;
+  transition: transform .4s;
+}
+.work:hover .work-label { transform: scale(1.08); }
+.work-meta { display: flex; gap: 8px; margin-bottom: 14px; }
+
+/* Шаги: крупные номера */
+.step h3::before { font-size: 2.4rem; font-family: var(--font-sans); font-weight: 300; color: rgba(255,255,255,.35); letter-spacing: -0.04em; }
+
+/* Контакты */
+.contact { padding: 90px 30px; }
+.contact-title { font-size: clamp(2.4rem, 6vw, 4.6rem); letter-spacing: -0.05em; line-height: 1.05; margin-bottom: 22px; }
+.btn-big { padding: 18px 38px; font-size: 1.1rem; }
+
+/* Свечение, которое следует за курсором внутри стекла */
+.glass { --mx: 50%; --my: 50%; }
+.card.glass::before {
+  background:
+    radial-gradient(400px circle at var(--mx) var(--my), rgba(255,255,255,0.1), transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 45%);
+}
+
+/* Появление блоков при прокрутке */
+.js .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1); }
+.js .reveal.visible { opacity: 1; transform: none; }
+
+/* Плавное увеличение карточек при наведении */
+.card {
+  transition: transform .4s cubic-bezier(.2,.7,.2,1), background .4s, box-shadow .4s;
+}
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.8),
+    inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.4),
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Пульсация badge */
+.badge {
+  animation: badgePulse 3s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Плавная анимация стрелок */
+.arrow {
+  display: inline-block;
+  transition: transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.btn:hover .arrow {
+  transform: translateX(6px);
+  animation: arrowBounce .6s ease-in-out;
+}
+@keyframes arrowBounce {
+  0%, 100% { transform: translateX(6px); }
+  50% { transform: translateX(10px); }
+}
+
+/* Увеличение work-label с эффектом свечения */
+.work-label {
+  transition: transform .5s cubic-bezier(.2,.7,.2,1), text-shadow .5s;
+}
+.work:hover .work-label {
+  transform: scale(1.12);
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .marquee-track, .dot { animation: none; }
+}
+
+@media (max-width: 800px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .hero { padding-top: 160px; }
+  .hero .hero-text { font-size: 1.05rem; }
+  .stat b { font-size: 1.6rem; }
+}

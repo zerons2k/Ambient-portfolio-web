@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Razor — барбершоп премиум-класса</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #D4AF37;
+      --gold-dark: #B8960C;
+      --black: #0A0A0A;
+      --charcoal: #1C1C1C;
+      --silver: #BFBFBF;
+      --white: #F5F5F5;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(30px);
+      border-bottom: 2px solid var(--gold);
+      padding: 28px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 50px;
+    }
+
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    .hero {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 140px 60px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(56px, 8vw, 96px);
+      font-weight: 900;
+      line-height: 0.95;
+      margin-bottom: 36px;
+      color: var(--white);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero .subtitle {
+      font-size: 20px;
+      color: var(--silver);
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    .hero-visual {
+      height: 650px;
+      background: var(--charcoal);
+      border: 3px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(212, 175, 55, 0.3);
+    }
+
+    .barber-tools {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scissors {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+
+    .blade {
+      width: 100px;
+      height: 20px;
+      background: linear-gradient(90deg, var(--silver) 0%, var(--white) 50%, var(--silver) 100%);
+      border-radius: 10px 2px 2px 10px;
+      box-shadow:
+        inset 0 2px 10px rgba(255,255,255,0.5),
+        0 5px 20px rgba(212, 175, 55, 0.4);
+      position: absolute;
+    }
+
+    .blade:nth-child(1) {
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%) rotate(-30deg);
+      transform-origin: left center;
+    }
+
+    .blade:nth-child(2) {
+      top: 60%;
+      left: 50%;
+      transform: translateX(-50%) rotate(30deg);
+      transform-origin: left center;
+    }
+
+    .handle {
+      width: 40px;
+      height: 80px;
+      background: var(--gold);
+      border-radius: 20px;
+      position: absolute;
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5);
+    }
+
+    .handle:nth-child(3) {
+      top: 25%;
+      left: 20%;
+    }
+
+    .handle:nth-child(4) {
+      top: 60%;
+      left: 20%;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 22px 48px;
+      border-radius: 0;
+      font-weight: 900;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: inline-block;
+      cursor: pointer;
+      border: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-secondary {
+      border: 3px solid var(--gold);
+      color: var(--gold);
+      background: transparent;
+    }
+
+    .btn-secondary:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    section {
+      max-width: 1300px;
+      margin: 140px auto;
+      padding: 0 60px;
+    }
+
+    h2 {
+      font-size: clamp(42px, 6vw, 72px);
+      margin-bottom: 28px;
+      text-align: center;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    h2 span { color: var(--gold); }
+
+    .subtitle-text {
+      text-align: center;
+      font-size: 19px;
+      color: var(--silver);
+      margin-bottom: 80px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+
+    .service-card {
+      background: var(--charcoal);
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      overflow: hidden;
+      transition: all 0.4s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 28px 70px rgba(212, 175, 55, 0.3);
+      border-color: var(--gold);
+    }
+
+    .service-img {
+      height: 280px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Стрижка */
+    .service-card:nth-child(1) .service-img {
+      background:
+        radial-gradient(circle at 30% 30%, rgba(212,175,55,0.3) 0%, transparent 50%),
+        linear-gradient(135deg, var(--charcoal) 0%, var(--black) 100%);
+    }
+
+    /* Стрижка + борода */
+    .service-card:nth-child(2) .service-img {
+      background:
+        linear-gradient(45deg, var(--gold) 0%, transparent 30%),
+        linear-gradient(135deg, var(--charcoal) 0%, var(--black) 100%);
+    }
+
+    /* Бритье */
+    .service-card:nth-child(3) .service-img {
+      background:
+        radial-gradient(ellipse at center, rgba(212,175,55,0.2) 0%, transparent 60%),
+        var(--charcoal);
+    }
+
+    /* Борода */
+    .service-card:nth-child(4) .service-img {
+      background:
+        linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%),
+        var(--black);
+      background-size: 200% 100%;
+    }
+
+    /* Детская */
+    .service-card:nth-child(5) .service-img {
+      background:
+        repeating-linear-gradient(45deg, var(--charcoal), var(--charcoal) 10px, var(--black) 10px, var(--black) 20px);
+    }
+
+    /* Камуфляж */
+    .service-card:nth-child(6) .service-img {
+      background:
+        radial-gradient(circle at 60% 40%, rgba(212,175,55,0.4) 0%, transparent 40%),
+        linear-gradient(180deg, var(--charcoal) 0%, var(--black) 100%);
+    }
+
+    .service-img::after {
+      content: '✂️';
+      font-size: 64px;
+      opacity: 0.6;
+    }
+
+    .service-card:nth-child(2) .service-img::after { content: '💈'; }
+    .service-card:nth-child(3) .service-img::after { content: '🪒'; }
+    .service-card:nth-child(4) .service-img::after { content: '🧔'; }
+    .service-card:nth-child(5) .service-img::after { content: '👦'; }
+    .service-card:nth-child(6) .service-img::after { content: '💇'; }
+
+    .badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: var(--gold);
+      color: var(--black);
+      padding: 8px 18px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .service-content {
+      padding: 32px;
+    }
+
+    .service-content h3 {
+      font-size: 26px;
+      margin-bottom: 14px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 1px;
+    }
+
+    .service-content p {
+      color: var(--silver);
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .service-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      padding-top: 20px;
+    }
+
+    .price {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: -1px;
+    }
+
+    .book-btn {
+      padding: 12px 28px;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .book-btn:hover {
+      background: var(--gold-dark);
+    }
+
+    .masters {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 80px;
+    }
+
+    .master {
+      text-align: center;
+      background: var(--charcoal);
+      padding: 48px 36px;
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      position: relative;
+    }
+
+    .master::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+    }
+
+    .master:hover {
+      border-color: var(--gold);
+    }
+
+    .master-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      margin: 0 auto 28px;
+      background:
+        radial-gradient(circle at 40% 40%, rgba(212,175,55,0.3) 0%, transparent 60%),
+        linear-gradient(135deg, var(--gold-dark) 0%, var(--charcoal) 100%);
+      border: 4px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+    }
+
+    .master h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: var(--white);
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .master p {
+      color: var(--silver);
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .master .exp {
+      margin-top: 16px;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 80px;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 44px 32px;
+      background: var(--charcoal);
+      border: 2px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .feature:hover {
+      border-color: var(--gold);
+    }
+
+    .feature-icon {
+      font-size: 52px;
+      margin-bottom: 24px;
+    }
+
+    .feature h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 1px;
+    }
+
+    .feature p {
+      color: var(--silver);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    footer {
+      background: var(--charcoal);
+      border-top: 3px solid var(--gold);
+      padding: 100px 60px 50px;
+      margin-top: 160px;
+    }
+
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-col h4 {
+      color: var(--gold);
+      margin-bottom: 24px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .footer-col p,
+    .footer-col a {
+      color: var(--silver);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-col a:hover {
+      color: var(--gold);
+    }
+
+    .copyright {
+      text-align: center;
+      color: rgba(245, 245, 245, 0.4);
+      padding-top: 40px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .copyright a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; gap: 60px; }
+      .services-grid, .masters { grid-template-columns: repeat(2, 1fr); }
+      .features { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .services-grid, .masters, .features, .footer-grid { grid-template-columns: 1fr; }
+      section { padding: 0 30px; margin: 80px auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">BLACK RAZOR</div>
+      <ul>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#masters">Мастера</a></li>
+        <li><a href="#why">Преимущества</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>СТИЛЬ<br>КОТОРЫЙ<br>ВЫДЕЛЯЕТ</h1>
+      <p class="subtitle">Классические и современные стрижки от профессиональных барберов. Традиции мастерства с 2019 года.</p>
+      <div class="btn-group">
+        <a href="#services" class="btn btn-primary">Услуги</a>
+        <a href="tel:+74951234567" class="btn btn-secondary">Записаться</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="barber-tools">
+        <div class="scissors">
+          <div class="blade"></div>
+          <div class="blade"></div>
+          <div class="handle"></div>
+          <div class="handle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="services">
+    <h2><span>НАШИ</span> УСЛУГИ</h2>
+    <p class="subtitle-text">Профессиональный уход и стиль для современного мужчины</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-img">
+          <span class="badge">Хит</span>
+        </div>
+        <div class="service-content">
+          <h3>Мужская стрижка</h3>
+          <p>Классическая или модельная стрижка с укладкой и консультацией</p>
+          <div class="service-footer">
+            <div class="price">1200₽</div>
+            <button class="book-btn">Записаться</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-img">
+          <span class="badge">Топ</span>
+        </div>
+        <div class="service-content">
+          <h3>Стрижка + Борода</h3>
+          <p>Комплексный уход: стрижка волос и моделирование бороды</p>
+          <div class="service-footer">
+            <div class="price">1800₽</div>
+            <button class="book-btn">Записаться</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-img"></div>
+        <div class="service-content">
+          <h3>Королевское бритьё</h3>
+          <p>Традиционное бритьё опасной бритвой с горячим компрессом</p>
+          <div class="service-footer">
+            <div class="price">1500₽</div>
+            <button class="book-btn">Записаться</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-img"></div>
+        <div class="service-content">
+          <h3>Моделирование бороды</h3>
+          <p>Оформление контура и формы бороды с укладкой</p>
+          <div class="service-footer">
+            <div class="price">900₽</div>
+            <button class="book-btn">Записаться</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-img"></div>
+        <div class="service-content">
+          <h3>Детская стрижка</h3>
+          <p>Стрижка для мальчиков до 12 лет с опытным мастером</p>
+          <div class="service-footer">
+            <div class="price">700₽</div>
+            <button class="book-btn">Записаться</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-img"></div>
+        <div class="service-content">
+          <h3>Камуфляж седины</h3>
+          <p>Профессиональное окрашивание с натуральным результатом</p>
+          <div class="service-footer">
+            <div class="price">1000₽</div>
+            <button class="book-btn">Записаться</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="masters">
+    <h2><span>НАШИ</span> МАСТЕРА</h2>
+    <p class="subtitle-text">Профессионалы с многолетним опытом</p>
+
+    <div class="masters">
+      <div class="master">
+        <div class="master-photo">👨</div>
+        <h3>Дмитрий Волков</h3>
+        <p>Топ-барбер</p>
+        <p class="exp">8 лет опыта</p>
+      </div>
+      <div class="master">
+        <div class="master-photo">👨</div>
+        <h3>Александр Громов</h3>
+        <p>Специалист по бороде</p>
+        <p class="exp">6 лет опыта</p>
+      </div>
+      <div class="master">
+        <div class="master-photo">👨</div>
+        <h3>Максим Соболев</h3>
+        <p>Барбер-стилист</p>
+        <p class="exp">5 лет опыта</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="why">
+    <h2><span>ПОЧЕМУ</span> МЫ</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🏆</div>
+        <h3>Профессионализм</h3>
+        <p>Сертифицированные мастера с международными курсами</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✨</div>
+        <h3>Премиум</h3>
+        <p>Только профессиональная косметика брендов</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h3>Индивидуально</h3>
+        <p>Подбор стиля с учётом типа лица</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">☕</div>
+        <h3>Атмосфера</h3>
+        <p>Брутальный интерьер и хороший кофе</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>BLACK RAZOR</h4>
+        <p>Мужская парикмахерская премиум-класса</p>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>📞 +7 (495) 123-45-67</p>
+        <p>📧 info@blackrazor.ru</p>
+        <p>📍 Москва, Тверская, 28</p>
+      </div>
+      <div class="footer-col">
+        <h4>Режим работы</h4>
+        <p>Пн-Пт: 9:00 — 21:00</p>
+        <p>Сб-Вс: 10:00 — 20:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Соцсети</h4>
+        <a href="#">Instagram</a>
+        <a href="#">ВКонтакте</a>
+        <a href="#">Telegram</a>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2024 Black Razor | Сайт создан <a href="/">Ambient</a>
+    </div>
+  </footer>
+</body>
+</html>
